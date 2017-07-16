@@ -9,6 +9,8 @@ object ShoppingCart {
   private val orange = "Orange"
   private val apple = "Apple"
 
+  def checkout2(cart: ShoppingCart, applyOffers: Boolean = false): BigDecimal = ???
+
   def checkout(cart: ShoppingCart): BigDecimal = cart.fruits match {
     case Nil => 0.00
     case f :: _ if f == apple || f == orange =>
