@@ -59,27 +59,34 @@ class ShoppingCartSuite extends FunSuite {
     }
   }
 
+  private def calcExpectedCost(fruits: List[String], appleCost: BigDecimal,
+                                    orangeCost: BigDecimal) =
+    ShoppingCart.buy2For1ApplesOffer(fruits) * appleCost + ShoppingCart.buy3For2OrangesOffer(fruits) * orangeCost
+
   test("total cost of a shopping cart with 3 apples and 2 oranges with offers applied") {
     new ShoppingCarts {
-      assert(ShoppingCart.checkout2(sc1, applyOffers = true) === 1.45)
-    }
-  }
-
-  test("total cost of a shopping cart with 3 apples and 5 oranges with offers applied") {
-    new ShoppingCarts {
-      assert(ShoppingCart.checkout2(sc3, applyOffers = true) === 2.20)
-    }
-  }
-
-  test("total cost of a shopping cart with 6 apples and 5 oranges with offers applied") {
-    new ShoppingCarts {
-      assert(ShoppingCart.checkout2(sc4, applyOffers = true) === 2.80)
+      assert(
+        ShoppingCart.checkout(sc1, applyOffers = true) ===
+          calcExpectedCost(sc1.fruits, appleCost, orangeCost)
+      )
     }
   }
 
   test("total cost of an empty shopping cart with offers applied") {
     new ShoppingCarts {
-      assert(ShoppingCart.checkout2(sc2, applyOffers = true) === 0.0)
+      assert(ShoppingCart.checkout(sc2, applyOffers = true) === 0.0)
+    }
+  }
+
+  test("total cost of a shopping cart with 3 apples and 5 oranges with offers applied") {
+    new ShoppingCarts {
+      assert(ShoppingCart.checkout(sc3, applyOffers = true) === 2.20)
+    }
+  }
+
+  test("total cost of a shopping cart with 6 apples and 5 oranges with offers applied") {
+    new ShoppingCarts {
+      assert(ShoppingCart.checkout(sc4, applyOffers = true) === 2.80)
     }
   }
 }
