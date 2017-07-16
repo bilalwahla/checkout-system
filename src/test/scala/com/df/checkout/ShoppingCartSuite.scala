@@ -35,4 +35,28 @@ class ShoppingCartSuite extends FunSuite {
     )
   }
 
+  test("total cost of a shopping cart with 3 apples and 1 orange") {
+    new ShoppingCarts {
+      assert(ShoppingCart.checkout(sc1) == 2.05)
+    }
+  }
+
+  test("total cost of an empty shopping cart") {
+    new ShoppingCarts {
+      assert(ShoppingCart.checkout(sc2) == 0.0)
+    }
+  }
+
+  test("total cost of a shopping cart with 3 apples and 5 oranges") {
+    new ShoppingCarts {
+      assert(ShoppingCart.checkout(sc3) === 3.05)
+    }
+  }
+
+  test("total cost of a shopping cart with 6 apples and 5 oranges") {
+    new ShoppingCarts {
+      assert(ShoppingCart.checkout(sc4) == 4.85)
+    }
+  }
+
 }
