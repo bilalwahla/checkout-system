@@ -1,7 +1,10 @@
 package com.df.checkout
 
+import org.junit.runner.RunWith
 import org.scalatest.FunSuite
+import org.scalatest.junit.JUnitRunner
 
+@RunWith(classOf[JUnitRunner])
 class GenericShoppingCartSuite extends FunSuite {
   trait GenericShoppingCarts {
     val apple = Apple()
