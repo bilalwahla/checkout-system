@@ -10,16 +10,18 @@ object GenericShoppingCart {
   // 3. Generalised offers
   def checkout(cart: GenericShoppingCart, offers: List[Offer]): BigDecimal = cart.fruits match {
     case Nil => 0.00
-    case fruit :: _ if fruit.isInstanceOf[Apple] => calcFruitPrice(fruit, cart.fruits, offers.filter(_.fruit.isInstanceOf[Apple])) +
-      checkout(GenericShoppingCart(cart.fruits.filter(!_.isInstanceOf[Apple])), offers.filter(!_.fruit.isInstanceOf[Apple]))
-    case fruit :: _ if fruit.isInstanceOf[Orange] => calcFruitPrice(fruit, cart.fruits, offers.filter(_.fruit.isInstanceOf[Orange])) +
-      checkout(GenericShoppingCart(cart.fruits.filter(!_.isInstanceOf[Orange])), offers.filter(!_.fruit.isInstanceOf[Orange]))
+    case fruit :: _ if fruit.isInstanceOf[Apple] =>
+      calcFruitPrice(fruit, cart.fruits.count(_.name == fruit.name), offers) +
+      checkout(GenericShoppingCart(cart.fruits.filter(!_.isInstanceOf[Apple])), offers)
+    case fruit :: _ if fruit.isInstanceOf[Orange] =>
+      calcFruitPrice(fruit, cart.fruits.count(_.name == fruit.name), offers) +
+      checkout(GenericShoppingCart(cart.fruits.filter(!_.isInstanceOf[Orange])), offers)
   }
 
-  private def calcFruitPrice(fruit: Fruit, fruits: List[Fruit], offers: List[Offer]): BigDecimal =
+  private def calcFruitPrice(fruit: Fruit, count:Int, offers: List[Offer]): BigDecimal =
     offers match {
-      case Nil => fruits.count(_.name == fruit.name) * fruit.price
-      case offer :: _ if offer.fruit.name == fruit.name => offer.calcItemsToPrice(fruits.count(_.name == fruit.name)) * fruit.price
-      case _ :: otherOffers => calcFruitPrice(fruit, fruits, otherOffers)
+      case Nil => count * fruit.price
+      case offer :: _ if offer.fruit.name == fruit.name => offer.calcItemsToPrice(count) * fruit.price
+      case _ :: otherOffers => calcFruitPrice(fruit, count, otherOffers)
     }
 }

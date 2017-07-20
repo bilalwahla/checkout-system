@@ -61,4 +61,10 @@ class GenericShoppingCartSuite extends FunSuite {
       assert(GenericShoppingCart.checkout(gsc4, List(appleOffer)) === 3.05)
     }
   }
+
+  test("total cost of shopping cart with 6 apples and 5 oranges with only orange offer applied") {
+    new GenericShoppingCarts {
+      assert(GenericShoppingCart.checkout(gsc4, List(orangeOffer)) === 4.6)
+    }
+  }
 }
